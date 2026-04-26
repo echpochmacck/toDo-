@@ -1,7 +1,10 @@
+<script setup lang="ts">
+import MainLayout from './layouts/MainLayout.vue'
+import { AppHeader } from '@/widgets/header';
+</script>
+
 <template>
-  <v-app>
-    <v-main>
-      <router-view />
-    </v-main>
-  </v-app>
+  <MainLayout>
+    <router-view />
+  </MainLayout>
 </template>
