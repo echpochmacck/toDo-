@@ -1,10 +1,12 @@
 <template>
   <AppTextField
     v-model="query"
-    placeholder="Поиск..."
+    placeholder="Поиск задач..."
+    prepend-inner-icon="mdi-magnify"
     hide-details
     density="compact"
     variant="outlined"
+    rounded="lg"
   />
 </template>
 
