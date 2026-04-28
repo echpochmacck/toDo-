@@ -14,6 +14,6 @@ jobs:
         with:
           node-version: 20
       - name: Установка зависимостей
-        run: npm install
+        run: npm ci
       - name: Запуск тестов
         run: npm run test
