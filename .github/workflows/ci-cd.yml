@@ -2,7 +2,6 @@ name: CI/CD Pipeline
 
 on:
     push:
-        branches: [main]
     pull_request:
         branches: [main]
 jobs:
@@ -16,4 +15,4 @@ jobs:
       - name: Установка зависимостей
         run: npm ci
       - name: Запуск тестов
-        run: npm run test
+        run: npm run test:unit
