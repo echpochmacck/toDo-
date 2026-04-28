@@ -15,4 +15,4 @@ jobs:
       - name: Установка зависимостей
         run: npm ci
       - name: Запуск тестов
-        run: npm run test:unit
+        run: npm run test
