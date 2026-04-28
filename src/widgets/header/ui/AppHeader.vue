@@ -1,3 +1,13 @@
+
+<script setup lang="ts">
+import { ref } from 'vue'
+import { SearchBar } from '@/widgets/search'
+import { TaskModal } from '@/widgets/modal'
+import CreateTaskForm from '@/features/create-task/ui/CreateTaskForm.vue';
+
+const modalOpen = ref(false)
+</script>
+
 <template>
   <v-app-bar elevation="1">
     <div class="flex! justify-between items-center w-full px-3">
@@ -24,15 +34,7 @@
 
   <task-modal v-model="modalOpen" >
     <template #form>
-      
+      <create-task-form @close="modalOpen = false"></create-task-form>
     </template> 
   </task-modal>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-import { SearchBar } from '@/widgets/search'
-import { TaskModal } from '@/widgets/modal'
-
-const modalOpen = ref(false)
-</script>

@@ -1,9 +1,9 @@
 <template>
   <v-dialog v-model="model" max-width="480">
-    <v-card rounded="lg" >
-      <div class="p-3">
-
-      <slot name="form" />
+    <v-card rounded="xl">
+      <div >
+        <slot name="form">
+        </slot>
       </div>
     </v-card>
   </v-dialog>
