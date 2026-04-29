@@ -2,7 +2,7 @@
 import {  ref } from 'vue'
 import type { TaskStatus } from '@/entities/task'
 import { AppTextField, AppTextarea, AppSelect } from '@/shared/ui';
-import { taskForm } from '../config';
+import type { taskForm } from '../config';
 import { required } from '@vuelidate/validators';
 import useVuelidate from '@vuelidate/core';
 
@@ -24,8 +24,9 @@ const statusOptions: { title: string; value: TaskStatus }[] = [
 
 
 const $v = useVuelidate(rules, form);
-const submit = () => {
-
+const submit = async () => {
+  const isValid = await $v.value.$validate()
+  if (!isValid) return
 }
 
 
@@ -37,7 +38,7 @@ const validateField = async (val: string) => {
 
 
 <template>
-  <v-form @submit.prevent="submit">
+  <v-form>
     <v-container class="p-0!">
       <v-row class="p-5!">
         <v-col>
@@ -50,16 +51,22 @@ const validateField = async (val: string) => {
       <v-divider></v-divider>
 
       <v-row class="p-5!">
-        <v-col cols="12">
+        <v-col cols="12" >
           <label class="field-label">Title</label>
           <app-text-field v-model="form.title" required :error="$v.title.$error"
-            @update:model-value="validateField('title')" :error-messages="$v.title.$errors.map(e => e.$message)" />
+          id="title-field"
+          class="title-field"
+            @update:model-value="validateField('title')" :error-messages="$v.title.$errors.map(e => e.$message)" 
+            
+            
+            />
 
         </v-col>
         <v-col cols="12">
           <label class="field-label">Description</label>
-          <app-textarea v-model="form.description" rows="3" :error="$v.title.$error"
+          <app-textarea v-model="form.description" rows="3" :error="$v.description.$error"
             :error-messages="$v.description.$errors.map(e => e.$message)"
+            id="description-field"
             @update:model-value="validateField('description')" />
         </v-col>
         <v-col cols="12">
@@ -70,7 +77,7 @@ const validateField = async (val: string) => {
       <v-divider />
       <div class="form-footer">
         <v-btn variant="text">Отмена</v-btn>
-        <v-btn type="submit" color="primary" rounded="lg">Создать задачу</v-btn>
+        <v-btn type="submit" color="primary" rounded="lg" id="form-btn" @click.prevent="submit">Создать задачу</v-btn>
       </div>
     </v-container>
   </v-form>
