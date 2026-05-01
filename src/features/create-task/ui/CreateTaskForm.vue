@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import {  ref } from 'vue'
-import type { TaskStatus } from '@/entities/task'
+import { ref } from 'vue'
+import { useTaskStore, type TaskStatus } from '@/entities/task'
 import { AppTextField, AppTextarea, AppSelect } from '@/shared/ui';
 import type { taskForm } from '../config';
 import { required } from '@vuelidate/validators';
 import useVuelidate from '@vuelidate/core';
 
 const emit = defineEmits(['close'])
+const taskStore = useTaskStore()
 const form = ref<taskForm>({
   title: '',
   description: ''
@@ -27,12 +28,17 @@ const $v = useVuelidate(rules, form);
 const submit = async () => {
   const isValid = await $v.value.$validate()
   if (!isValid) return
+  taskStore.add({ ...form.value, status: status.value })
+  form.value = {
+    title: '',
+    description: ''
+  }
+  // emit('close')
 }
 
 
 const validateField = async (val: string) => {
   await $v.value[val].$validate()
-  console.log(123)
 }
 </script>
 
@@ -51,22 +57,16 @@ const validateField = async (val: string) => {
       <v-divider></v-divider>
 
       <v-row class="p-5!">
-        <v-col cols="12" >
+        <v-col cols="12">
           <label class="field-label">Title</label>
-          <app-text-field v-model="form.title" required :error="$v.title.$error"
-          id="title-field"
-          class="title-field"
-            @update:model-value="validateField('title')" :error-messages="$v.title.$errors.map(e => e.$message)" 
-            
-            
-            />
+          <app-text-field v-model="form.title" required :error="$v.title.$error" id="title-field" class="title-field"
+            @update:model-value="validateField('title')" :error-messages="$v.title.$errors.map(e => e.$message)" />
 
         </v-col>
         <v-col cols="12">
           <label class="field-label">Description</label>
           <app-textarea v-model="form.description" rows="3" :error="$v.description.$error"
-            :error-messages="$v.description.$errors.map(e => e.$message)"
-            id="description-field"
+            :error-messages="$v.description.$errors.map(e => e.$message)" id="description-field"
             @update:model-value="validateField('description')" />
         </v-col>
         <v-col cols="12">
