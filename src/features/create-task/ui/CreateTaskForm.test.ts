@@ -26,6 +26,7 @@ describe('Create Task form test', () => {
     it('button render Test', async () => {
 
         const btn = wrapper.find('#form-btn')
+        
         expect(btn.exists()).toBe(true)
     })
 
@@ -36,7 +37,13 @@ describe('Create Task form test', () => {
         expect(wrapper.find('#title-field-messages').text()).toEqual("Value is required")
 
     })
-
+    it('close emit test',async  () => {
+        const btn = wrapper.find('#close-btn')
+        await btn.trigger('click')
+        await nextTick()
+        console.log(wrapper.emitted())
+        expect(wrapper.emitted()).toHaveProperty('close')
+    })
     it('create task test', async () => {
         const vm = wrapper.vm as any
         vm.form.title = 'Test title'
@@ -46,4 +53,5 @@ describe('Create Task form test', () => {
         await nextTick()
         expect(taskStore.tasks[taskStore.tasks.length - 1]).toMatchObject({ title: 'Test title', description: 'Test description' })
     })
+    
 })

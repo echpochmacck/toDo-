@@ -33,7 +33,7 @@ const submit = async () => {
     title: '',
     description: ''
   }
-  // emit('close')
+  emit('close')
 }
 
 
@@ -51,7 +51,7 @@ const validateField = async (val: string) => {
           <h3>Создание задачи</h3>
         </v-col>
         <v-col cols="2" class="d-flex justify-end align-center">
-          <v-btn icon="mdi-close" variant="text" density="compact" @click.prevent="emit('close')" />
+          <v-btn icon="mdi-close" variant="text" density="compact" @click.prevent="emit('close')" id="close-btn" />
         </v-col>
       </v-row>
       <v-divider></v-divider>
