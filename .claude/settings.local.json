@@ -4,7 +4,13 @@
       "Bash(npm create *)",
       "PowerShell(cd \"C:\\\\Users\\\\User\\\\Desktop\\\\tofo\"; $input = \"y`n\"; echo \"y\" | npm create vite@latest . -- --template vue-ts 2>&1)",
       "Bash(npm install *)",
-      "Bash(npm test *)"
+      "Bash(npm test *)",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\user\\\\toDo-\" -Recurse -Directory)",
+      "Bash(Select-Object -ExpandProperty FullName)",
+      "Bash(Sort-Object)",
+      "Bash(find \"/c/Users/user/.claude/projects/c--Users-user-toDo-/96673765-bfe5-4d2c-8a65-7a1a10235c7a/tool-results/design\" -type f)",
+      "Read(//c/Users/user/.claude/projects/c--Users-user-toDo-/96673765-bfe5-4d2c-8a65-7a1a10235c7a/tool-results/design/**)",
+      "Bash(git checkout *)"
     ]
   }
 }

@@ -1,15 +1,13 @@
 <script setup lang="ts">
-import { useTaskStore } from '@/entities/task';
-
-const taskStore = useTaskStore()
+import { TaskList } from '@/widgets/task-list'
 </script>
 
 <template>
-  {{ taskStore.tasks }}
   <v-container>
     <v-row justify="center">
-      <v-col cols="12" md="8">
-        <h1 class="text-h4 mb-4">Home</h1>
+      <v-col cols="12">
+        <h1 class="text-h4 mb-4">Tasks</h1>
+        <TaskList />
       </v-col>
     </v-row>
   </v-container>

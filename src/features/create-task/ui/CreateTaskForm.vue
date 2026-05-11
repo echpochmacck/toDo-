@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useTaskStore, type TaskStatus } from '@/entities/task'
 import { AppTextField, AppTextarea, AppSelect } from '@/shared/ui';
 import type { taskForm } from '../config';
 import { required } from '@vuelidate/validators';
-import useVuelidate from '@vuelidate/core';
+import useVuelidate, { type ErrorObject } from '@vuelidate/core';
 
 const emit = defineEmits(['close'])
 const taskStore = useTaskStore()
@@ -12,10 +12,10 @@ const form = ref<taskForm>({
   title: '',
   description: ''
 })
-const rules = {
+const rules = ref({
   title: { required },
   description: { required }
-}
+})
 const status = ref<TaskStatus>('todo')
 const statusOptions: { title: string; value: TaskStatus }[] = [
   { title: 'To Do', value: 'todo' },
@@ -37,8 +37,17 @@ const submit = async () => {
 }
 
 
+const fieldErrors = computed(() =>
+  Object.fromEntries(
+    Object.keys(rules.value).map(field => [
+      field,
+      $v.value[field].$errors.map((e: ErrorObject) => e.$message as string)
+    ])
+  )
+)
+
 const validateField = async (val: string) => {
-  await $v.value[val].$validate()
+  await $v.value[val].$touch()
 }
 </script>
 
@@ -59,14 +68,14 @@ const validateField = async (val: string) => {
       <v-row class="p-5!">
         <v-col cols="12">
           <label class="field-label">Title</label>
-          <app-text-field v-model="form.title" required :error="$v.title.$error" id="title-field" class="title-field"
-            @update:model-value="validateField('title')" :error-messages="$v.title.$errors.map(e => e.$message)" />
+          <app-text-field v-model="form.title" required :error="$v.title.$error" :error-messages="fieldErrors.title" id="title-field" class="title-field"
+            @update:model-value="validateField('title')"  />
 
         </v-col>
         <v-col cols="12">
           <label class="field-label">Description</label>
-          <app-textarea v-model="form.description" rows="3" :error="$v.description.$error"
-            :error-messages="$v.description.$errors.map(e => e.$message)" id="description-field"
+          <app-textarea v-model="form.description" rows="3" :error="$v.description.$error" :error-messages="fieldErrors.description"
+             id="description-field"
             @update:model-value="validateField('description')" />
         </v-col>
         <v-col cols="12">
